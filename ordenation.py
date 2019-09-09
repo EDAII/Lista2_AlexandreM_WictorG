@@ -1,47 +1,24 @@
-import dash
-from dash.dependencies import Output, Input
-import dash_core_components as dcc
-import dash_html_components as html
-import plotly
-import random
-import plotly.graph_objs as go
-from collections import deque
+def shellSort(rand_tuples):
+ size = len(rand_tuples)
+ gap = int(size/2)
+ while(gap >= 1):
+  i = gap
+  while(i < size):
+   value = rand_tuples[i]
+   j = i
+   while(j-gap >= 0 and value < rand_tuples[j - gap]):
+    rand_tuples[j] =  rand_tuples[j - gap]
+    j -= gap
+   rand_tuples[j] = value
+   i+=1
+  gap = int(gap/2)
+ print("sorted sample=",rand_tuples)
 
-X = deque(maxlen=20)
-X.append(1)
-Y = deque(maxlen=20)
-Y.append(1)
-
-
-app = dash.Dash(__name__)
-app.layout = html.Div(
-    [
-        dcc.Graph(id='live-graph', animate=True),
-        dcc.Interval(
-            id='graph-update',
-            interval=1*1000,
-            n_intervals=0
-        ),
-    ]
-)
-
-@app.callback(Output('live-graph', 'figure'),
-              [Input('graph-update', 'n_intervals')])
-def update_graph_scatter(n):
-    X.append(X[-1]+1)
-    Y.append(Y[-1]+Y[-1]*random.uniform(-0.1,0.1))
-
-    data = plotly.graph_objs.Scatter(
-            x=list(X),
-            y=list(Y),
-            name='Scatter',
-            mode= 'lines+markers'
-            )
-
-    return {'data': [data],'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)]),
-                                                yaxis=dict(range=[min(Y),max(Y)]),)}
-
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
+sample1 = [37,22,18,50,2,3,1,29,69,5]
+shellSort(sample1)
+sample2 = [1,2,3,4,5,6,7,8,9]
+shellSort(sample2)
+sample3 = [9,8,7,6,5,4,3,2,1]
+shellSort(sample3)
+sample4 = [-100,-1000,200,1,500,3,-1459,-98700,3456,9]
+shellSort(sample4)
