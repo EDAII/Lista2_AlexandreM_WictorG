@@ -29,6 +29,22 @@ def selection_sort(rand_tuples):
 
     return rand_tuples
 
+def shell_sort(rand_tuples):
+ size = len(rand_tuples)
+ gap = int(size/2)
+ while(gap >= 1):
+  i = gap
+  while(i < size):
+   value = rand_tuples[i]
+   j = i
+   while([j-gap][0] >= 0 and value < rand_tuples[j - gap][0]):
+    rand_tuples[j][0] =  rand_tuples[j - gap][0]
+    j -= gap
+   rand_tuples[j] = value
+   i+=1
+  gap = int(gap/2)
+ return rand_tuples
+
 def bubble_sort(rand_tuples):
     #subtraimos por um para sempre compararmos com os proximos valores
     size = len(rand_tuples) - 1
