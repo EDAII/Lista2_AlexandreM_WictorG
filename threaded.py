@@ -101,58 +101,64 @@ def insertion_sort(rand_tuples):
 
 class Sel(Thread):
 
-    def __init__(self, random_tuples):
+    def __init__(self, random_tuple, new_image):
         Thread.__init__(self)
-        self.random_tuples = random_tuples
+        self.random_tuple = random_tuple
+        self.new_image = new_image
 
     def run(self):
-        random_tuples = self.random_tuples
-        lines = len(random_tuples)
-        columns = len(random_tuples[0])
-        new_image = convert_image(random_tuples, lines, columns)
-        for i in range(lines):
-            tuple_line = selection_sort(random_tuples[i])
-            converted_line = convert_line(tuple_line)
-            new_image[i] = converted_line
-            cv2.imshow('Selection Sort', new_image)
-            cv2.waitKey(1)
-
-class Bub(Thread):
-
-    def __init__(self, random_tuples):
-        Thread.__init__(self)
-        self.random_tuples = random_tuples
-
-    def run(self):
-        random_tuples = self.random_tuples
-        lines = len(random_tuples)
-        columns = len(random_tuples[0])
-        new_image = convert_image(random_tuples, lines, columns)
-        for i in range(lines-1, -1, -1):
-            tuple_line = bubble_sort(random_tuples[i])
-            converted_line = convert_line(tuple_line)
-            new_image[i] = converted_line
-            cv2.imshow('Bubble Sort', new_image)
-            cv2.waitKey(1)
+        random_tuple = self.random_tuple
+        size = len(random_tuple)
+        for i in range(size):
+            for j in range(i+1, size):
+                if random_tuple[j][0] < random_tuple[i][0]:
+                    aux = random_tuple[i]
+                    random_tuple[i] = random_tuple[j]
+                    random_tuple[j] = aux
+                    other_aux = self.new_image[i]
+                    self.new_image[i] = self.new_image[j]
+                    self.new_image[j] = other_aux
+                    cv2.imshow('Selection Sort', self.new_image)
+                    cv2.waitKey(1)
 
 
-class In(Thread):
 
-    def __init__(self, random_tuples):
-        Thread.__init__(self)
-        self.random_tuples = random_tuples
-
-    def run(self):
-        random_tuples = self.random_tuples
-        lines = len(random_tuples)
-        columns = len(random_tuples[0])
-        new_image = convert_image(random_tuples, lines, columns)
-        for i in range(lines):
-            tuple_line = insertion_sort(random_tuples[i])
-            converted_line = convert_line(tuple_line)
-            new_image[i] = converted_line
-            cv2.imshow('Insertion Sort', new_image)
-            cv2.waitKey(1)
+# class Bub(Thread):
+#
+#     def __init__(self, random_tuples):
+#         Thread.__init__(self)
+#         self.random_tuples = random_tuples
+#
+#     def run(self):
+#         random_tuples = self.random_tuples
+#         lines = len(random_tuples)
+#         columns = len(random_tuples[0])
+#         new_image = convert_image(random_tuples, lines, columns)
+#         for i in range(lines-1, -1, -1):
+#             tuple_line = bubble_sort(random_tuples[i])
+#             converted_line = convert_line(tuple_line)
+#             new_image[i] = converted_line
+#             cv2.imshow('Bubble Sort', new_image)
+#             cv2.waitKey(1)
+#
+#
+# class In(Thread):
+#
+#     def __init__(self, random_tuples):
+#         Thread.__init__(self)
+#         self.random_tuples = random_tuples
+#
+#     def run(self):
+#         random_tuples = self.random_tuples
+#         lines = len(random_tuples)
+#         columns = len(random_tuples[0])
+#         new_image = convert_image(random_tuples, lines, columns)
+#         for i in range(lines):
+#             tuple_line = insertion_sort(random_tuples[i])
+#             converted_line = convert_line(tuple_line)
+#             new_image[i] = converted_line
+#             cv2.imshow('Insertion Sort', new_image)
+#             cv2.waitKey(1)
 
 
 
@@ -179,8 +185,14 @@ if __name__ == "__main__":
         random.shuffle(line_tuple)
         img_random_tuples.append(line_tuple)
 
-    # new_image = convert_image(img_random_tuples, linhas, colunas)
-    # for i in range(linhas):
+    new_image = convert_image(img_random_tuples, linhas, colunas)
+    threads = []
+    for i in range(linhas):
+            t = Sel(img_random_tuples[i], new_image)
+            threads.append(t)
+
+    for i in range(linhas):
+        threads[i].start()
     #     tuple_line = insertion_sort(img_random_tuples[i])
     #     converted_line = convert_line(tuple_line)
     #     if i == 1:
@@ -190,12 +202,12 @@ if __name__ == "__main__":
     #     cv2.waitKey(1)
     #     # print('passou')
 
-    t1 = Sel(img_random_tuples)
-    t1.start()
-    t2 = Bub(img_random_tuples)
-    t2.start()
-    t3 = In(img_random_tuples)
-    t3.start()
+    # t1 = Sel(img_random_tuples)
+    # t1.start()
+    # t2 = Bub(img_random_tuples)
+    # t2.start()
+    # t3 = In(img_random_tuples)
+    # t3.start()
 
 
     cv2.waitKey(0)
