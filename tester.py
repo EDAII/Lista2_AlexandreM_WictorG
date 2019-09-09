@@ -18,53 +18,15 @@ def convert_line(original_line):
         new_line[i] = original_line[i][1]
     return new_line
 
-def bubblesort(rand_tuples):
-    size = len(rand_tuples) -1
-    for i in range(size):
-        for j in range(size -i):
-            if rand_tuples[j] > rand_tuples[j+1]:
-                rand_tuples[j], rand_tuples[j+1] = rand_tuples[j+1], rand_tuples[j]
-    return rand_tuples
+# def bubblesort(rand_tuples):
+#     size = len(rand_tuples) -1
+#     for i in range(size):
+#         for j in range(size -i):
+#             if rand_tuples[j] > rand_tuples[j+1]:
+#                 rand_tuples[j], rand_tuples[j+1] = rand_tuples[j+1], rand_tuples[j]
+#     return rand_tuples
 
-def insertionSort(rand_tuples):
-    for index in range(1, len(rand_tuples)):
-        current = rand_tuples[index]
-        position = index
-        while position > 0 and rand_tuples[position-1] > current:
-            rand_tuples[position] = rand_tuples[position-1]
-            position -= 1
-        rand_tuples[position] = current
 
-    return rand_tuples
-
-# We define our 3 arrays
- less = []
- equal = []
- greater = []
-
- # if the length of our array is greater than 1
- # we perform a sort
- if len(array) > 1:
-     # Select our pivot. This doesn't have to be
-     # the first element of our array
-     pivot = array[0]
-
-     # recursively go through every element
-     # of the array passed in and sort appropriately
-     for x in array:
-         if x < pivot:
-             less.append(x)
-         if x == pivot:
-             equal.append(x)
-         if x > pivot:
-             greater.append(x)
-
-     # recursively call quicksort on gradually smaller and smaller
-     # arrays until we have a sorted list.
-     return quicksort(less)+equal+quicksort(greater)
-
- else:
-     return array
 
 def selection_sort(rand_tuples, new_image, pos):
     size = len(rand_tuples)
@@ -78,9 +40,12 @@ def selection_sort(rand_tuples, new_image, pos):
     return rand_tuples
 
 
+
+
+
 if __name__ == "__main__":
     img = cv2.imread('arya.jpeg')
-    cv2.imshow('Arya, The Cat', img)
+    # cv2.imshow('Arya, The Cat', img)
 
     linhas = len(img)
     colunas = len(img[0])
