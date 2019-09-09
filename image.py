@@ -37,8 +37,8 @@ def shell_sort(rand_tuples):
   while(i < size):
    value = rand_tuples[i]
    j = i
-   while([j-gap][0] >= 0 and value < rand_tuples[j - gap][0]):
-    rand_tuples[j][0] =  rand_tuples[j - gap][0]
+   while(j-gap >= 0 and value < rand_tuples[j - gap]):
+    rand_tuples[j] =  rand_tuples[j - gap]
     j -= gap
    rand_tuples[j] = value
    i+=1
@@ -137,7 +137,7 @@ if __name__ == "__main__":
 
     new_image = convert_image(img_random_tuples, linhas, colunas)
     for i in range(linhas):
-        tuple_line = insertion_sort(img_random_tuples[i])
+        tuple_line = shell_sort(img_random_tuples[i])
         converted_line = convert_line(tuple_line)
         if i == 1:
             print(tuple_line)

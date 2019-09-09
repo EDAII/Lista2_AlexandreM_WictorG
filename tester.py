@@ -48,6 +48,22 @@ def bubble_sort(rand_tuples):
                 rand_tuples[j], rand_tuples[j+1] = rand_tuples[j+1], rand_tuples[j]
     return rand_tuples
 
+def shell_sort(rand_tuples):
+ size = len(rand_tuples)
+ gap = int(size/2)
+ while(gap >= 1):
+  i = gap
+  while(i < size):
+   value = rand_tuples[i]
+   j = i
+   while(j-gap >= 0 and value < rand_tuples[j - gap]):
+    rand_tuples[j] =  rand_tuples[j - gap]
+    j -= gap
+   rand_tuples[j] = value
+   i+=1
+  gap = int(gap/2)
+ return rand_tuples
+
 # Como se a cada elemento encontrado, o algorítmo percorre o vetor do fim pro começo para encontrar a posição adequada de inserção
 def insertion_sort(rand_tuples):
     size = len(rand_tuples)
@@ -116,6 +132,25 @@ class Sel(Thread):
             new_image[i] = converted_line
             cv2.imshow('Selection Sort', new_image)
             cv2.waitKey(1)
+
+class Shel(Thread):
+
+    def __init__(self, random_tuples):
+        Thread.__init__(self)
+        self.random_tuples = random_tuples
+
+    def run(self):
+        random_tuples = self.random_tuples
+        lines = len(random_tuples)
+        columns = len(random_tuples[0])
+        new_image = convert_image(random_tuples, lines, columns)
+        for i in range(lines):
+            tuple_line = shell_sort(random_tuples[i])
+            converted_line = convert_line(tuple_line)
+            new_image[i] = converted_line
+            cv2.imshow('Shell Sort', new_image)
+            cv2.waitKey(1)
+
 
 class Bub(Thread):
 
@@ -196,6 +231,8 @@ if __name__ == "__main__":
     t2.start()
     t3 = In(img_random_tuples)
     t3.start()
+    t4 = Shel(img_random_tuples)
+    t4.start()
 
 
     cv2.waitKey(0)
